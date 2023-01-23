@@ -9,7 +9,6 @@
 //  Student ID: 301265667
 //  Date: 2023-01-22
 //  App Description: Assignment 1 - Slot Machine Part 1
-
 //  Version of Xcode: Version 14.2 (14C18)
 
 import SwiftUI

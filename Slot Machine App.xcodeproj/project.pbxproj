@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07DC6020297D9CF400CC1AA1 /* Slot_Machine_AppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DC601F297D9CF400CC1AA1 /* Slot_Machine_AppApp.swift */; };
+		07DC6020297D9CF400CC1AA1 /* Slot_Machine_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DC601F297D9CF400CC1AA1 /* Slot_Machine_App.swift */; };
 		07DC6022297D9CF400CC1AA1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DC6021297D9CF400CC1AA1 /* ContentView.swift */; };
 		07DC6024297D9CF500CC1AA1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07DC6023297D9CF500CC1AA1 /* Assets.xcassets */; };
 		07DC6027297D9CF500CC1AA1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07DC6026297D9CF500CC1AA1 /* Preview Assets.xcassets */; };
@@ -15,7 +15,7 @@
 
 /* Begin PBXFileReference section */
 		07DC601C297D9CF400CC1AA1 /* Slot Machine App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Slot Machine App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		07DC601F297D9CF400CC1AA1 /* Slot_Machine_AppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slot_Machine_AppApp.swift; sourceTree = "<group>"; };
+		07DC601F297D9CF400CC1AA1 /* Slot_Machine_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slot_Machine_App.swift; sourceTree = "<group>"; };
 		07DC6021297D9CF400CC1AA1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		07DC6023297D9CF500CC1AA1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		07DC6026297D9CF500CC1AA1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -51,7 +51,7 @@
 		07DC601E297D9CF400CC1AA1 /* Slot Machine App */ = {
 			isa = PBXGroup;
 			children = (
-				07DC601F297D9CF400CC1AA1 /* Slot_Machine_AppApp.swift */,
+				07DC601F297D9CF400CC1AA1 /* Slot_Machine_App.swift */,
 				07DC6021297D9CF400CC1AA1 /* ContentView.swift */,
 				07DC6023297D9CF500CC1AA1 /* Assets.xcassets */,
 				07DC6025297D9CF500CC1AA1 /* Preview Content */,
@@ -138,7 +138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				07DC6022297D9CF400CC1AA1 /* ContentView.swift in Sources */,
-				07DC6020297D9CF400CC1AA1 /* Slot_Machine_AppApp.swift in Sources */,
+				07DC6020297D9CF400CC1AA1 /* Slot_Machine_App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
