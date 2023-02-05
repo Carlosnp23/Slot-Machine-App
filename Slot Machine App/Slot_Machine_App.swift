@@ -7,7 +7,7 @@
 //  File name: Slot Machine APP
 //  Author's name: Carlos Norambuena Perez
 //  Student ID: 301265667
-//  Date: 2023-01-22
+//  Date: 2023-02-05
 //  App Description: Assignment 1 - Slot Machine Part 1
 //  Version of Xcode: Version 14.2 (14C18)
 
