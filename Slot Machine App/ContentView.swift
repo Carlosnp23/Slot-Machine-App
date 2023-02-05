@@ -16,12 +16,13 @@ import SwiftUI
 struct ContentView: View {
     
     private var symbols = ["Clubs", "Spades", "Hearts"]
-    private var betAmount = 1
+    @State private var betAmount = 1
     @State private var numbers = [2, 1, 0]
     @State private var credits = 15
     @State private var currentJackpot = 1500
     @State private var betEntry = 1
     @State private var timesWin = 0
+    @State private var spinButtonDisabled = false
 
 
     
@@ -106,16 +107,27 @@ struct ContentView: View {
                         
                         if betEntry == 1 {
                             betEntry = 3
+                            betAmount = 3
                             
-                        } else if betEntry == 5 {
+                        } else if betEntry == 3 {
                             betEntry = 5
+                            betAmount = 5
 
-                        } else if betEntry == 10 {
+                        } else if betEntry == 5 {
                             betEntry = 10
+                            betAmount = 10
 
                         } else {
                             betEntry = 1
-                            
+                            betAmount = 1
+
+                        }
+                        
+                        // Activate the SPIN button when you have enough credits to play.
+                        if betAmount <= credits && betEntry <= credits {
+                            spinButtonDisabled = false
+                        } else {
+                            spinButtonDisabled = true
                         }
                         
                     }) {
@@ -137,7 +149,7 @@ struct ContentView: View {
                 
                 // Button Spin
                 Button(action: {
-                    
+                                        
                     // Change the images
                     numbers[0] = Int.random(in: 0...symbols.count - 1)
                     numbers[1] = Int.random(in: 0...symbols.count - 1)
@@ -160,6 +172,12 @@ struct ContentView: View {
                       // Deducts the credit played
                     } else {
                         credits -= betAmount
+                        
+                        // Deactivate the SPIN button when you do not have enough credits to play.
+                        if betAmount > credits {
+                            spinButtonDisabled = true
+                        }
+                        
                     }
                     
                 }) {
@@ -170,7 +188,7 @@ struct ContentView: View {
                         .padding([.leading, .trailing], 30)
                         .background(Color.pink)
                         .cornerRadius(50)
-                }
+                }.disabled(spinButtonDisabled)
                 
                 Spacer()
                     
@@ -182,9 +200,14 @@ struct ContentView: View {
 
                     // Button Reset
                     Button(action: {
+                        
                         credits = 15
                         numbers = [2, 2, 2]
                         currentJackpot = 1500
+                        
+                        betEntry = 1
+                        betAmount = 1
+                        
                     }) {
                         Text("RESET")
                             .fontWeight(.bold)
