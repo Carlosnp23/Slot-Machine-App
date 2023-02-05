@@ -185,7 +185,7 @@ struct ContentView: View {
                     
                     // Button Exit
                     Button(action: {
-                        
+                        exit(0)
                     }) {
                         Text("EXIT")
                             .fontWeight(.bold)
