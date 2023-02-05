@@ -16,11 +16,13 @@ import SwiftUI
 struct ContentView: View {
     
     private var symbols = ["Clubs", "Spades", "Hearts"]
-    private var betAmount = 3
+    private var betAmount = 1
     @State private var numbers = [2, 1, 0]
-    @State private var credits = 150
-    @State private var currentJackpot = 150000
+    @State private var credits = 15
+    @State private var currentJackpot = 1500
     @State private var betEntry = 1
+    @State private var timesWin = 0
+
 
     
     var body: some View {
@@ -102,17 +104,17 @@ struct ContentView: View {
                     
                     Button(action: {
                         
-                        if self.betEntry == 1 {
-                            self.betEntry = 5
+                        if betEntry == 1 {
+                            betEntry = 3
+                            
+                        } else if betEntry == 5 {
+                            betEntry = 5
 
-                        } else if self.betEntry == 5 {
-                            self.betEntry = 10
-
-                        } else if self.betEntry == 10 {
-                            self.betEntry = 15
+                        } else if betEntry == 10 {
+                            betEntry = 10
 
                         } else {
-                            self.betEntry = 1
+                            betEntry = 1
                             
                         }
                         
@@ -137,19 +139,27 @@ struct ContentView: View {
                 Button(action: {
                     
                     // Change the images
-                    self.numbers[0] = Int.random(in: 0...self.symbols.count - 1)
-                    self.numbers[1] = Int.random(in: 0...self.symbols.count - 1)
-                    self.numbers[2] = Int.random(in: 0...self.symbols.count - 1)
+                    numbers[0] = Int.random(in: 0...symbols.count - 1)
+                    numbers[1] = Int.random(in: 0...symbols.count - 1)
+                    numbers[2] = Int.random(in: 0...symbols.count - 1)
 
                     // Check winnings
-                    if self.numbers[0] == self.numbers[1] &&
-                        self.numbers[1] == self.numbers[2] {
+                    if numbers[0] == numbers[1] &&
+                        numbers[1] == numbers[2] {
                         
                         // WON
-                        self.credits += betAmount * 10
+                        credits += betAmount * 10
+                        timesWin += 1
                         
+                        // Winning x times increases the Current jackpot
+                        if timesWin == 5 {
+                            currentJackpot += currentJackpot * 1/5
+                            timesWin = 0
+                        }
+                        
+                      // Deducts the credit played
                     } else {
-                        self.credits -= betAmount
+                        credits -= betAmount
                     }
                     
                 }) {
@@ -172,7 +182,9 @@ struct ContentView: View {
 
                     // Button Reset
                     Button(action: {
-                        credits = 150
+                        credits = 15
+                        numbers = [2, 2, 2]
+                        currentJackpot = 1500
                     }) {
                         Text("RESET")
                             .fontWeight(.bold)
