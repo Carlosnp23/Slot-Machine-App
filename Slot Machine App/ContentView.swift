@@ -172,7 +172,7 @@ struct ContentView: View {
 
                     // Button Reset
                     Button(action: {
-                        
+                        credits = 150
                     }) {
                         Text("RESET")
                             .fontWeight(.bold)
