@@ -15,16 +15,15 @@ import SwiftUI
 
 struct ContentView: View {
     
-    private var symbols = ["Clubs", "Spades", "Hearts"]
+    private var symbols = ["Clubs", "Spades", "Hearts", "Jackpot"]
     @State private var betAmount = 1
-    @State private var numbers = [2, 1, 0]
+    @State private var numbers = [3, 2, 1, 0]
     @State private var credits = 15
     @State private var currentJackpot = 1500
     @State private var betEntry = 1
     @State private var timesWin = 0
     @State private var spinButtonDisabled = false
-
-
+    @State private var win = false
     
     var body: some View {
         ZStack {
@@ -35,7 +34,7 @@ struct ContentView: View {
     
             
             VStack {
-                              
+                
                 Group {
                     Spacer()
                     
@@ -52,7 +51,7 @@ struct ContentView: View {
                     }.scaleEffect(1.5)
                     
                     Spacer()
-
+                    
                     // Current Jackpot
                     Text("Current Jackpot: " + String(currentJackpot))
                         .fontWeight(.bold)
@@ -63,13 +62,13 @@ struct ContentView: View {
                     
                     Spacer()
                 }
-                                                
+                
                 Group {
                     // Cards
                     HStack {
                         
                         Spacer()
-
+                        
                         Image(symbols[numbers[0]])
                             .resizable()
                             .aspectRatio(1, contentMode: .fit)
@@ -93,12 +92,13 @@ struct ContentView: View {
                     }
                     
                     Spacer()
-
+                    
                     // Credit Counter
                     Text("Credits: " + String(credits))
                         .foregroundColor(.black)
                         .padding(.all, 10)
-                        .background(Color.white.opacity(0.5))
+                        .background(win ? Color.green.opacity(0.5) : Color.white.opacity(0.5))
+                        .scaleEffect(win ? 1.2 : 1)
                         .cornerRadius(20)
                     
                     Spacer()
@@ -112,15 +112,15 @@ struct ContentView: View {
                         } else if betEntry == 3 {
                             betEntry = 5
                             betAmount = 5
-
+                            
                         } else if betEntry == 5 {
                             betEntry = 10
                             betAmount = 10
-
+                            
                         } else {
                             betEntry = 1
                             betAmount = 1
-
+                            
                         }
                         
                         // Activate the SPIN button when you have enough credits to play.
@@ -142,7 +142,8 @@ struct ContentView: View {
                     // Bet Entry
                     Text("Bet Entry: " + String(betEntry))
                     
-                }
+                }.animation(.easeInOut(duration: 1))
+
 
                                 
                 Spacer()
@@ -154,6 +155,7 @@ struct ContentView: View {
                     numbers[0] = Int.random(in: 0...symbols.count - 1)
                     numbers[1] = Int.random(in: 0...symbols.count - 1)
                     numbers[2] = Int.random(in: 0...symbols.count - 1)
+                    numbers[3] = Int.random(in: 3...symbols.count - 1)
 
                     // Check winnings
                     if numbers[0] == numbers[1] &&
@@ -162,6 +164,8 @@ struct ContentView: View {
                         // WON
                         credits += betAmount * 10
                         timesWin += 1
+                                                
+                        win = true
                         
                         // Winning x times increases the Current jackpot
                         if timesWin == 5 {
@@ -169,7 +173,7 @@ struct ContentView: View {
                             timesWin = 0
                         }
                         
-                      // Deducts the credit played
+                    // Deducts the credit played
                     } else {
                         credits -= betAmount
                         
@@ -178,6 +182,19 @@ struct ContentView: View {
                             spinButtonDisabled = true
                         }
                         
+                        win = false
+                        
+                    }
+                    
+                    if numbers[3] == numbers[0] &&
+                        numbers[3] == numbers[1] &&
+                        numbers[3] == numbers[2] {
+                                
+                        // WON
+                        win = true
+                        credits += credits + currentJackpot
+                        currentJackpot = 0
+                      
                     }
                     
                 }) {
@@ -201,13 +218,16 @@ struct ContentView: View {
                     // Button Reset
                     Button(action: {
                         
+                        spinButtonDisabled = false
+                        win = false
+                        
                         credits = 15
-                        numbers = [2, 2, 2]
+                        numbers = [3, 3, 3]
                         currentJackpot = 1500
                         
                         betEntry = 1
                         betAmount = 1
-                        
+
                     }) {
                         Text("RESET")
                             .fontWeight(.bold)
@@ -216,6 +236,7 @@ struct ContentView: View {
                             .padding([.leading, .trailing], 30)
                             .background(Color.pink)
                             .cornerRadius(50)
+                            .animation(.easeInOut(duration: 1.5))
                     }
                     
                     // Button Exit
