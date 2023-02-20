@@ -210,14 +210,31 @@ struct ContentView: View {
                             .cornerRadius(50)
                     }.disabled(spinButtonDisabled)
                     
-                    NavigationLink(destination: Support_Help(),
-                                   label: {Text("Help")})
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .padding(.all, 10)
-                    .padding([.leading, .trailing], 7)
-                    .background(Color.cyan)
-                    .cornerRadius(70)
+                    
+                    // Navigating to the Help screen
+                    NavigationLink(destination: Support_Help()) {
+                        HStack {
+                            Image(systemName: "exclamationmark.octagon.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 35, height: 35)
+                                .foregroundColor(.white)
+
+                            Text("Help")
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .padding(.all, 10)
+                                .padding([.leading, .trailing], 7)
+                                .background(Color.cyan)
+                                .cornerRadius(70)
+                            Image(systemName: "exclamationmark.octagon.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 35, height: 35)
+                                .foregroundColor(.white)
+
+                                }
+                    }
                     
                     Spacer()
                     
@@ -372,6 +389,53 @@ struct Support_Help: View {
                             .fontWeight(.bold)
                             .padding([.leading, .trailing, .top], 10)
                         
+                        HStack {
+                            
+                            Image("Hearts")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                            Image("Spades")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                            Image("Clubs")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                        }
+                        
+                        Text("By obtaining the 3 equal symbols, the credits played will be multiplied by 10.")
+                            .font(.body)
+                            .multilineTextAlignment(.center)
+                        
+                        Text("For example:")
+                            .font(.body)
+                            .multilineTextAlignment(.center)
+                            .fontWeight(.bold)
+                            .padding([.leading, .trailing, .top], 10)
+
+                        HStack {
+                            Image("Hearts")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                            Image("Hearts")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                            Image("Hearts")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                        }
+                        
+                        Text("Bet Entry = 3")
+                            .font(.body)
+                            .multilineTextAlignment(.center)
+                        Text("Won: 3 * 10 = 30 Credits.")
+                            .font(.body)
+                            .multilineTextAlignment(.center)
                     }
                     
                     Spacer()
