@@ -278,9 +278,7 @@ struct Support_Help: View {
     var body: some View {
         NavigationView {
             VStack {
-                
-                Group {
-                    
+                                    
                     Spacer()
                     
                     // Title
@@ -305,32 +303,78 @@ struct Support_Help: View {
                                 .font(.custom("Courier", fixedSize: 23))
                                 .fontWeight(.bold)
                             
-                            Text("Offer a minimum jackpot that grows as the game is played.").font(.body)
+                            Text(" Offer a minimum jackpot that grows as the game is played.")
+                                .font(.body)
+                                .multilineTextAlignment(.center)
                             
                             Text("Credits:")
                                 .font(.custom("Courier", fixedSize: 23))
                                 .fontWeight(.bold)
-                            
-                            Text("This is the total amount of Credits you have to play with.").font(.body)
+                                .padding([.leading, .trailing, .top], 10)
+
+                            Text(" This is the total amount of Credits you have to play with.")
+                                .font(.body)
+                                .multilineTextAlignment(.center)
                             
                             Text("Increase Bet:")
                                 .font(.custom("Courier", fixedSize: 23))
                                 .fontWeight(.bold)
-                            
-                            Text("A feature that can help you multiply your winnings.").font(.body)
+                                .padding([.leading, .trailing, .top], 10)
+
+                            Text(" A feature that can help you multiply your winnings. ")
+                                .font(.body)
+                                .multilineTextAlignment(.center)
                             
                             Text("Bet Entry:")
                                 .font(.custom("Courier", fixedSize: 23))
                                 .fontWeight(.bold)
-                                                    
-                            Text("Amount of Bet to play.").font(.body)
-                            
+                                .padding([.leading, .trailing, .top], 10)
+
+                            Text("Amount of Bet to play.")
+                                .font(.body)
+                                .multilineTextAlignment(.center)
+
+                            Text("Spin:")
+                                .font(.custom("Courier", fixedSize: 23))
+                                .fontWeight(.bold)
+                                .padding([.leading, .trailing, .top], 10)
+
+                            Text(" This is the button that starts the fun. Press it to spin the reels and win big prizes.")
+                                .font(.body)
+                                .multilineTextAlignment(.center)
+
                         }
+                        
+                        Group {
+                            
+/*                            Text("Reset:")
+                                .font(.custom("Courier", fixedSize: 23))
+                                .fontWeight(.bold)
+                                .padding([.leading, .trailing, .top], 10)
+
+                            Text("Resets the APP.")
+                                .font(.body)
+                                .multilineTextAlignment(.center)
+
+                            Text("Exit:")
+                                .font(.custom("Courier", fixedSize: 23))
+                                .fontWeight(.bold)
+                                .padding([.leading, .trailing, .top], 10)
+
+                            Text("Closes the APP.")
+                                .font(.body)
+                                .multilineTextAlignment(.center)
+*/
+                        }
+                        
+                        Text("Paytable")
+                            .font(.custom("Courier", fixedSize: 23))
+                            .fontWeight(.bold)
+                            .padding([.leading, .trailing, .top], 10)
+                        
                     }
                     
                     Spacer()
-                    
-                }
                 
             }
         }
