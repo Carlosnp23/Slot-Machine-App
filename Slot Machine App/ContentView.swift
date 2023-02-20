@@ -7,7 +7,7 @@
 //  File name: Slot Machine APP
 //  Author's name: Carlos Norambuena Perez
 //  Student ID: 301265667
-//  Date: 2023-02-05
+//  Date: 2023-02-20
 //  App Description: Assignment 1 - Slot Machine Part 1
 //  Version of Xcode: Version 14.2 (14C18)
 
@@ -24,6 +24,8 @@ struct ContentView: View {
     @State private var timesLost = 0
     @State private var spinButtonDisabled = false
     @State private var win = false
+    @State private var spin = 0
+    @State private var HighScore = 0
     
     var body: some View {
         
@@ -105,6 +107,11 @@ struct ContentView: View {
                             .scaleEffect(win ? 1.2 : 1)
                             .cornerRadius(20)
                         
+                        Text("High Score:" + String(HighScore))
+                            .font(.custom("Courier", fixedSize: 23))
+                            .fontWeight(.bold)
+                            .padding([.leading, .trailing, .top], 10)
+                        
                         Spacer()
                         
                         Button(action: {
@@ -153,6 +160,8 @@ struct ContentView: View {
                     // Button Spin
                     Button(action: {
                         
+                        spin += spin + 1
+                        
                         // Change the images
                         numbers[0] = Int.random(in: 0...symbols.count - 1)
                         numbers[1] = Int.random(in: 0...symbols.count - 1)
@@ -164,7 +173,39 @@ struct ContentView: View {
                             numbers[1] == numbers[2] {
                             
                             // WON
-                            credits += betAmount * 10
+                            if spin == 5 {
+                                
+                                credits += betAmount * 12
+                                HighScore = betAmount * 12
+                                
+                            } else if spin == 10 {
+                                
+                                credits += betAmount * 15
+                                HighScore = betAmount * 15
+
+                            } else if spin == 15 {
+                                
+                                credits += betAmount * 17
+                                HighScore = betAmount * 17
+
+                            } else if spin == 20 {
+                                
+                                credits += betAmount * 20
+                                HighScore = betAmount * 20
+
+                            } else if spin == 30 {
+                                
+                                credits += betAmount * 25
+                                HighScore = betAmount * 25
+                                spin = 0
+                                
+                            } else {
+                                
+                                credits += betAmount * 10
+                                HighScore = betAmount * 10
+                                
+                            }
+                            
                             
                             win = true
                             
@@ -227,6 +268,7 @@ struct ContentView: View {
                                 .padding([.leading, .trailing], 7)
                                 .background(Color.cyan)
                                 .cornerRadius(70)
+                            
                             Image(systemName: "exclamationmark.octagon.fill")
                                 .resizable()
                                 .scaledToFit()
@@ -252,6 +294,8 @@ struct ContentView: View {
                             credits = 15
                             numbers = [3, 3, 3]
                             currentJackpot = 1500
+                            spin = 0
+                            HighScore = 0
                             
                             betEntry = 1
                             betAmount = 1
@@ -291,6 +335,7 @@ struct ContentView: View {
     }
 }
 
+// Help screen
 struct Support_Help: View {
     var body: some View {
         NavigationView {
@@ -308,12 +353,16 @@ struct Support_Help: View {
                             .font(.title)
                             .fontWeight(.bold)
                         
+                        Image(systemName: "exclamationmark.shield")
+                            .foregroundColor(.cyan)
+                        
                     }.scaleEffect(1.5)
                     
                     Spacer()
                     
                     VStack {
                         
+                        // Game Instructions
                         Group {
                             
                             Text("Progressive Jackpot:")
@@ -405,6 +454,7 @@ struct Support_Help: View {
                                 .frame(width: 60, height: 60)
                         }
                         
+                        // Instructions for Winning
                         Text("By obtaining the 3 equal symbols, the credits played will be multiplied by 10.")
                             .font(.body)
                             .multilineTextAlignment(.center)
