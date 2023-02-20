@@ -15,6 +15,8 @@ import SwiftUI
 import UserNotifications
 
 struct ContentView: View {
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(sortDescriptors: []) var jackpots: FetchedResults<Jackpot>
     
     @State private var Authorization = false
     
@@ -170,6 +172,7 @@ struct ContentView: View {
                     // Button Spin
                     Button(action: {
                         
+                        //Authorization to receive notifications
                         if Authorization == false {
                             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) {
                                 success, error in
@@ -180,6 +183,7 @@ struct ContentView: View {
                                 }
                             }
                             Authorization = true
+                            
                         } else {
                             spin += spin + 1
                             
@@ -254,25 +258,42 @@ struct ContentView: View {
                                     
                                     spin = 0
                                     
-                                } else if spin >= 1 {
+                                } else if spin >= 61 {
                                     
+                                    // Local notifications
                                     let content = UNMutableNotificationContent()
                                     content.title = " Winner Alert "
                                     content.subtitle = " You won the Global Jackpot !! "
                                     content.sound = UNNotificationSound.default
                                     
                                     let trigger = UNTimeIntervalNotificationTrigger(
-                                        timeInterval: 5, repeats: false)
+                                        timeInterval: 1, repeats: false)
                                     
                                     let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-                                    
+                                    UNUserNotificationCenter.current().add(request)
+
                                     // WON Jackpot
                                     win = true
                                     credits += credits + currentJackpot
                                     HighScore = currentJackpot
+
+                                    userName = "Carlos"
+                                    userJackpot = String(currentJackpot)
+                                    userHighScore = String(HighScore)
+
+                                    let jackpot = Jackpot(context: moc)
+                                    jackpot.id = UUID()
+                                    jackpot.name = userName
+                                    jackpot.jackpot = userJackpot
+                                                                        
+                                    do {
+                                        try moc.save()
+                                    } catch {
+                                        
+                                    }
+                                    
                                     currentJackpot = 0
                                     
-                                    UNUserNotificationCenter.current().add(request)
                                     
                                 }
                                 
