@@ -12,13 +12,16 @@
 //  Version of Xcode: Version 14.2 (14C18)
 
 import SwiftUI
+import UserNotifications
 
 struct ContentView: View {
+    
+    @State private var Authorization = false
     
     private var symbols = ["Clubs", "Spades", "Hearts", "Jackpot"]
     @State private var betAmount = 1
     @State private var numbers = [3, 2, 1, 0]
-    @State private var credits = 15
+    @State private var credits = 150
     @State private var currentJackpot = 1500
     @State private var betEntry = 1
     @State private var timesLost = 0
@@ -27,6 +30,11 @@ struct ContentView: View {
     @State private var jackpot = false
     @State private var spin = 0
     @State private var HighScore = 0
+    
+    
+    @State private var userName = ""
+    @State private var userJackpot = ""
+    @State private var userHighScore = ""
     
     var body: some View {
         
@@ -162,93 +170,137 @@ struct ContentView: View {
                     // Button Spin
                     Button(action: {
                         
-                        spin += spin + 1
-                        
-                        // Change the images
-                        numbers[0] = Int.random(in: 0...symbols.count - 1)
-                        numbers[1] = Int.random(in: 0...symbols.count - 1)
-                        numbers[2] = Int.random(in: 0...symbols.count - 1)
-                        numbers[3] = Int.random(in: 0...symbols.count - 1)
-                        
-                        // Check winnings
-                        if numbers[0] == numbers[1] &&
-                            numbers[1] == numbers[2] {
+                        if Authorization == false {
+                            UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) {
+                                success, error in
+                                if success {
+                                    print("All set")
+                                } else if let error = error {
+                                    print(error.localizedDescription)
+                                }
+                            }
+                            Authorization = true
+                        } else {
+                            spin += spin + 1
                             
-                            // WON
-                            if spin == 5 {
+                            // Change the images
+                            numbers[0] = Int.random(in: 0...symbols.count - 1)
+                            numbers[1] = Int.random(in: 0...symbols.count - 1)
+                            numbers[2] = Int.random(in: 0...symbols.count - 1)
+                            numbers[3] = Int.random(in: 0...symbols.count - 1)
+                            
+                            // Check winnings
+                            if numbers[0] == numbers[1] &&
+                                numbers[1] == numbers[2] {
                                 
-                                credits += betAmount * 12
-                                HighScore = betAmount * 12
-                                
-                            } else if spin == 10 {
-                                
-                                credits += betAmount * 15
-                                HighScore = betAmount * 15
-                                
-                            } else if spin == 15 {
-                                
-                                credits += betAmount * 17
-                                HighScore = betAmount * 17
-                                
-                            } else if spin == 20 {
-                                
-                                credits += betAmount * 20
-                                HighScore = betAmount * 20
-                                
-                            } else if spin == 30 {
-                                
-                                credits += betAmount * 25
-                                HighScore = betAmount * 25
-                                spin = 0
-                                
-                            } else {
-                                
-                                credits += betAmount * 10
-                                
-                                if HighScore < (betAmount * 10) {
-                                    HighScore = betAmount * 10
+                                // Probability
+                                if spin >= 7 && spin < 14 {
+                                    
+                                    credits += betAmount * 12
+                                    
+                                    if HighScore <= (betAmount * 12) {
+                                        HighScore = betAmount * 12
+                                    }
+                                    
+                                    currentJackpot = currentJackpot - (betAmount * 12)
+                                    
                                     spin = 0
+                                    
+                                } else if spin >= 14 && spin < 21 {
+                                    
+                                    credits += betAmount * 15
+                                    
+                                    if HighScore <= (betAmount * 15) {
+                                        HighScore = betAmount * 15
+                                    }
+                                    
+                                    currentJackpot = currentJackpot - (betAmount * 15)
+                                    
+                                    spin = 0
+                                    
+                                } else if spin >= 21 && spin < 35  {
+                                    
+                                    credits += betAmount * 17
+                                    
+                                    if HighScore <= (betAmount * 17) {
+                                        HighScore = betAmount * 17
+                                    }
+                                    
+                                    currentJackpot = currentJackpot - (betAmount * 17)
+                                    
+                                    spin = 0
+                                    
+                                } else if spin >= 35 && spin < 48  {
+                                    
+                                    credits += betAmount * 20
+                                    
+                                    if HighScore <= (betAmount * 20) {
+                                        HighScore = betAmount * 20
+                                    }
+                                    
+                                    currentJackpot = currentJackpot - (betAmount * 20)
+                                    
+                                    spin = 0
+                                    
+                                } else if spin >= 48 && spin < 60 {
+                                    
+                                    credits += betAmount * 25
+                                    
+                                    if HighScore <= (betAmount * 25) {
+                                        HighScore = betAmount * 25
+                                    }
+                                    
+                                    currentJackpot = currentJackpot - (betAmount * 25)
+                                    
+                                    spin = 0
+                                    
+                                } else if spin >= 1 {
+                                    
+                                    let content = UNMutableNotificationContent()
+                                    content.title = " Winner Alert "
+                                    content.subtitle = " You won the Global Jackpot !! "
+                                    content.sound = UNNotificationSound.default
+                                    
+                                    let trigger = UNTimeIntervalNotificationTrigger(
+                                        timeInterval: 5, repeats: false)
+                                    
+                                    let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+                                    
+                                    // WON Jackpot
+                                    win = true
+                                    credits += credits + currentJackpot
+                                    HighScore = currentJackpot
+                                    currentJackpot = 0
+                                    
+                                    UNUserNotificationCenter.current().add(request)
+                                    
                                 }
                                 
+                                win = true
+                                
+                                // Deducts the credit played
+                            } else {
+                                credits -= betAmount
+                                if spin >= 35 { spin = 0 }
+                                
+                                // Losing x times increases the Current jackpot
+                                timesLost += 1
+                                
+                                if timesLost == 10 {
+                                    currentJackpot += currentJackpot * 1/5
+                                    timesLost = 0
+                                }
+                                
+                                // Deactivate the SPIN button when you do not have enough credits to play.
+                                if betAmount > credits {
+                                    spinButtonDisabled = true
+                                }
+                                
+                                win = false
+                                
                             }
-                            
-                            if spin > 30 {
-                                spin = 0
-                            }
-                            win = true
-                            
-                            // Deducts the credit played
-                        } else {
-                            credits -= betAmount
-                            
-                            // Losing x times increases the Current jackpot
-                            timesLost += 1
-                            
-                            if timesLost == 5 {
-                                currentJackpot += currentJackpot * 1/5
-                                timesLost = 0
-                            }
-                            
-                            // Deactivate the SPIN button when you do not have enough credits to play.
-                            if betAmount > credits {
-                                spinButtonDisabled = true
-                            }
-                            
-                            win = false
                             
                         }
-                        
-                        if String(numbers[0]) == symbols[numbers[3]] &&
-                            String(numbers[1]) == symbols[numbers[3]] &&
-                            String(numbers[2]) == symbols[numbers[3]] {
-                            
-                            // WON
-                            win = true
-                            credits += credits + currentJackpot
-                            currentJackpot = 0
-                            
-                        }
-                        
                     }) {
                         Text("SPIN")
                             .fontWeight(.bold)
@@ -491,7 +543,7 @@ struct Support_Help: View {
                     Text("Bet Entry = 3")
                         .font(.body)
                         .multilineTextAlignment(.center)
-                    Text("Won: 3 * 10 = 30 Credits.")
+                    Text("Won: 3 * 12 = 36 Credits.")
                         .font(.body)
                         .multilineTextAlignment(.center)
                 }

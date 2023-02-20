@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0792CAD829A3BDCE00BE7458 /* GlobalJackpot.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0792CAD629A3BDCE00BE7458 /* GlobalJackpot.xcdatamodeld */; };
+		0792CADA29A3BE5E00BE7458 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0792CAD929A3BE5E00BE7458 /* DataController.swift */; };
 		07DC6020297D9CF400CC1AA1 /* Slot_Machine_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DC601F297D9CF400CC1AA1 /* Slot_Machine_App.swift */; };
 		07DC6022297D9CF400CC1AA1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07DC6021297D9CF400CC1AA1 /* ContentView.swift */; };
 		07DC6024297D9CF500CC1AA1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07DC6023297D9CF500CC1AA1 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0792CAD729A3BDCE00BE7458 /* GlobalJackpot.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GlobalJackpot.xcdatamodel; sourceTree = "<group>"; };
+		0792CAD929A3BE5E00BE7458 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		07DC601C297D9CF400CC1AA1 /* Slot Machine App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Slot Machine App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		07DC601F297D9CF400CC1AA1 /* Slot_Machine_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slot_Machine_App.swift; sourceTree = "<group>"; };
 		07DC6021297D9CF400CC1AA1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -52,6 +56,8 @@
 				07DC601F297D9CF400CC1AA1 /* Slot_Machine_App.swift */,
 				07DC6021297D9CF400CC1AA1 /* ContentView.swift */,
 				07DC6023297D9CF500CC1AA1 /* Assets.xcassets */,
+				0792CAD629A3BDCE00BE7458 /* GlobalJackpot.xcdatamodeld */,
+				0792CAD929A3BE5E00BE7458 /* DataController.swift */,
 			);
 			path = "Slot Machine App";
 			sourceTree = "<group>";
@@ -126,6 +132,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				07DC6022297D9CF400CC1AA1 /* ContentView.swift in Sources */,
+				0792CADA29A3BE5E00BE7458 /* DataController.swift in Sources */,
+				0792CAD829A3BDCE00BE7458 /* GlobalJackpot.xcdatamodeld in Sources */,
 				07DC6020297D9CF400CC1AA1 /* Slot_Machine_App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -333,6 +341,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		0792CAD629A3BDCE00BE7458 /* GlobalJackpot.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				0792CAD729A3BDCE00BE7458 /* GlobalJackpot.xcdatamodel */,
+			);
+			currentVersion = 0792CAD729A3BDCE00BE7458 /* GlobalJackpot.xcdatamodel */;
+			path = GlobalJackpot.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 07DC6014297D9CF400CC1AA1 /* Project object */;
 }
