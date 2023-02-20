@@ -24,6 +24,7 @@ struct ContentView: View {
     @State private var timesLost = 0
     @State private var spinButtonDisabled = false
     @State private var win = false
+    @State private var jackpot = false
     @State private var spin = 0
     @State private var HighScore = 0
     
@@ -59,15 +60,16 @@ struct ContentView: View {
                         Spacer()
                         
                         // Current Jackpot
-                        Text("Current Jackpot: " + String(currentJackpot))
+                        Text("Global Jackpot: " + String(currentJackpot))
                             .fontWeight(.bold)
+                            .font(.custom("Courier", fixedSize: 19))
                             .foregroundColor(.white)
                             .padding(.all, 10)
-                            .background(Color.black.opacity(0.5))
-                            .cornerRadius(50)
+                            .background(jackpot ? Color.yellow.opacity(0.5) : Color.black.opacity(0.5))
+                            .scaleEffect(win ? 1.2 : 1)                            .cornerRadius(50)
                         
                         Spacer()
-                    }
+                    }.animation(.easeInOut(duration: 1))
                     
                     Group {
                         // Cards
@@ -103,7 +105,7 @@ struct ContentView: View {
                         Text("Credits: " + String(credits))
                             .foregroundColor(.black)
                             .padding(.all, 10)
-                            .background(win ? Color.green.opacity(0.5) : Color.white.opacity(0.5))
+                            .background(win ? Color.yellow.opacity(0.5) : Color.white.opacity(0.5))
                             .scaleEffect(win ? 1.2 : 1)
                             .cornerRadius(20)
                         
@@ -182,17 +184,17 @@ struct ContentView: View {
                                 
                                 credits += betAmount * 15
                                 HighScore = betAmount * 15
-
+                                
                             } else if spin == 15 {
                                 
                                 credits += betAmount * 17
                                 HighScore = betAmount * 17
-
+                                
                             } else if spin == 20 {
                                 
                                 credits += betAmount * 20
                                 HighScore = betAmount * 20
-
+                                
                             } else if spin == 30 {
                                 
                                 credits += betAmount * 25
@@ -202,20 +204,26 @@ struct ContentView: View {
                             } else {
                                 
                                 credits += betAmount * 10
-                                HighScore = betAmount * 10
+                                
+                                if HighScore < (betAmount * 10) {
+                                    HighScore = betAmount * 10
+                                    spin = 0
+                                }
                                 
                             }
                             
-                            
+                            if spin > 30 {
+                                spin = 0
+                            }
                             win = true
                             
                             // Deducts the credit played
                         } else {
                             credits -= betAmount
-
+                            
                             // Losing x times increases the Current jackpot
                             timesLost += 1
-
+                            
                             if timesLost == 5 {
                                 currentJackpot += currentJackpot * 1/5
                                 timesLost = 0
@@ -230,9 +238,9 @@ struct ContentView: View {
                             
                         }
                         
-                        if numbers[3] == numbers[0] &&
-                            numbers[3] == numbers[1] &&
-                            numbers[3] == numbers[2] {
+                        if String(numbers[0]) == symbols[numbers[3]] &&
+                            String(numbers[1]) == symbols[numbers[3]] &&
+                            String(numbers[2]) == symbols[numbers[3]] {
                             
                             // WON
                             win = true
@@ -260,7 +268,7 @@ struct ContentView: View {
                                 .scaledToFit()
                                 .frame(width: 35, height: 35)
                                 .foregroundColor(.white)
-
+                            
                             Text("Help")
                                 .fontWeight(.bold)
                                 .foregroundColor(.white)
@@ -274,8 +282,8 @@ struct ContentView: View {
                                 .scaledToFit()
                                 .frame(width: 35, height: 35)
                                 .foregroundColor(.white)
-
-                                }
+                            
+                        }
                     }
                     
                     Spacer()
@@ -340,155 +348,155 @@ struct Support_Help: View {
     var body: some View {
         NavigationView {
             VStack {
-                                    
-                    Spacer()
+                
+                Spacer()
+                
+                // Title
+                HStack {
                     
-                    // Title
-                    HStack {
+                    Image(systemName: "exclamationmark.shield")
+                        .foregroundColor(.cyan)
+                    
+                    Text("Instructions")
+                        .font(.title)
+                        .fontWeight(.bold)
+                    
+                    Image(systemName: "exclamationmark.shield")
+                        .foregroundColor(.cyan)
+                    
+                }.scaleEffect(1.5)
+                
+                Spacer()
+                
+                VStack {
+                    
+                    // Game Instructions
+                    Group {
                         
-                        Image(systemName: "exclamationmark.shield")
-                            .foregroundColor(.cyan)
-                        
-                        Text("Instructions")
-                            .font(.title)
+                        Text("Progressive Jackpot:")
+                            .font(.custom("Courier", fixedSize: 23))
                             .fontWeight(.bold)
                         
-                        Image(systemName: "exclamationmark.shield")
-                            .foregroundColor(.cyan)
+                        Text(" Offer a minimum jackpot that grows as the game is played.")
+                            .font(.body)
+                            .multilineTextAlignment(.center)
                         
-                    }.scaleEffect(1.5)
-                    
-                    Spacer()
-                    
-                    VStack {
-                        
-                        // Game Instructions
-                        Group {
-                            
-                            Text("Progressive Jackpot:")
-                                .font(.custom("Courier", fixedSize: 23))
-                                .fontWeight(.bold)
-                            
-                            Text(" Offer a minimum jackpot that grows as the game is played.")
-                                .font(.body)
-                                .multilineTextAlignment(.center)
-                            
-                            Text("Credits:")
-                                .font(.custom("Courier", fixedSize: 23))
-                                .fontWeight(.bold)
-                                .padding([.leading, .trailing, .top], 10)
-
-                            Text(" This is the total amount of Credits you have to play with.")
-                                .font(.body)
-                                .multilineTextAlignment(.center)
-                            
-                            Text("Increase Bet:")
-                                .font(.custom("Courier", fixedSize: 23))
-                                .fontWeight(.bold)
-                                .padding([.leading, .trailing, .top], 10)
-
-                            Text(" A feature that can help you multiply your winnings. ")
-                                .font(.body)
-                                .multilineTextAlignment(.center)
-                            
-                            Text("Bet Entry:")
-                                .font(.custom("Courier", fixedSize: 23))
-                                .fontWeight(.bold)
-                                .padding([.leading, .trailing, .top], 10)
-
-                            Text("Amount of Bet to play.")
-                                .font(.body)
-                                .multilineTextAlignment(.center)
-
-                            Text("Spin:")
-                                .font(.custom("Courier", fixedSize: 23))
-                                .fontWeight(.bold)
-                                .padding([.leading, .trailing, .top], 10)
-
-                            Text(" This is the button that starts the fun. Press it to spin the reels and win big prizes.")
-                                .font(.body)
-                                .multilineTextAlignment(.center)
-
-                        }
-                        
-                        Group {
-                            
-/*                            Text("Reset:")
-                                .font(.custom("Courier", fixedSize: 23))
-                                .fontWeight(.bold)
-                                .padding([.leading, .trailing, .top], 10)
-
-                            Text("Resets the APP.")
-                                .font(.body)
-                                .multilineTextAlignment(.center)
-
-                            Text("Exit:")
-                                .font(.custom("Courier", fixedSize: 23))
-                                .fontWeight(.bold)
-                                .padding([.leading, .trailing, .top], 10)
-
-                            Text("Closes the APP.")
-                                .font(.body)
-                                .multilineTextAlignment(.center)
-*/
-                        }
-                        
-                        Text("Paytable")
+                        Text("Credits:")
                             .font(.custom("Courier", fixedSize: 23))
                             .fontWeight(.bold)
                             .padding([.leading, .trailing, .top], 10)
                         
-                        HStack {
-                            
-                            Image("Hearts")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 60)
-                            Image("Spades")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 60)
-                            Image("Clubs")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 60, height: 60)
-                        }
-                        
-                        // Instructions for Winning
-                        Text("By obtaining the 3 equal symbols, the credits played will be multiplied by 10.")
+                        Text(" This is the total amount of Credits you have to play with.")
                             .font(.body)
                             .multilineTextAlignment(.center)
                         
-                        Text("For example:")
-                            .font(.body)
-                            .multilineTextAlignment(.center)
+                        Text("Increase Bet:")
+                            .font(.custom("Courier", fixedSize: 23))
                             .fontWeight(.bold)
                             .padding([.leading, .trailing, .top], 10)
-
-                        HStack {
-                            Image("Hearts")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                            Image("Hearts")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                            Image("Hearts")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                        }
                         
-                        Text("Bet Entry = 3")
+                        Text(" A feature that can help you multiply your winnings. ")
                             .font(.body)
                             .multilineTextAlignment(.center)
-                        Text("Won: 3 * 10 = 30 Credits.")
+                        
+                        Text("Bet Entry:")
+                            .font(.custom("Courier", fixedSize: 23))
+                            .fontWeight(.bold)
+                            .padding([.leading, .trailing, .top], 10)
+                        
+                        Text("Amount of Bet to play.")
                             .font(.body)
                             .multilineTextAlignment(.center)
+                        
+                        Text("Spin:")
+                            .font(.custom("Courier", fixedSize: 23))
+                            .fontWeight(.bold)
+                            .padding([.leading, .trailing, .top], 10)
+                        
+                        Text(" This is the button that starts the fun. Press it to spin the reels and win big prizes.")
+                            .font(.body)
+                            .multilineTextAlignment(.center)
+                        
                     }
                     
-                    Spacer()
+                    Group {
+                        
+                        /*                            Text("Reset:")
+                         .font(.custom("Courier", fixedSize: 23))
+                         .fontWeight(.bold)
+                         .padding([.leading, .trailing, .top], 10)
+                         
+                         Text("Resets the APP.")
+                         .font(.body)
+                         .multilineTextAlignment(.center)
+                         
+                         Text("Exit:")
+                         .font(.custom("Courier", fixedSize: 23))
+                         .fontWeight(.bold)
+                         .padding([.leading, .trailing, .top], 10)
+                         
+                         Text("Closes the APP.")
+                         .font(.body)
+                         .multilineTextAlignment(.center)
+                         */
+                    }
+                    
+                    Text("Paytable")
+                        .font(.custom("Courier", fixedSize: 23))
+                        .fontWeight(.bold)
+                        .padding([.leading, .trailing, .top], 10)
+                    
+                    HStack {
+                        
+                        Image("Hearts")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 60)
+                        Image("Spades")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 60)
+                        Image("Clubs")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 60)
+                    }
+                    
+                    // Instructions for Winning
+                    Text("By obtaining the 3 equal symbols, the credits played will be multiplied by 10.")
+                        .font(.body)
+                        .multilineTextAlignment(.center)
+                    
+                    Text("For example:")
+                        .font(.body)
+                        .multilineTextAlignment(.center)
+                        .fontWeight(.bold)
+                        .padding([.leading, .trailing, .top], 10)
+                    
+                    HStack {
+                        Image("Hearts")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                        Image("Hearts")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                        Image("Hearts")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                    }
+                    
+                    Text("Bet Entry = 3")
+                        .font(.body)
+                        .multilineTextAlignment(.center)
+                    Text("Won: 3 * 10 = 30 Credits.")
+                        .font(.body)
+                        .multilineTextAlignment(.center)
+                }
+                
+                Spacer()
                 
             }
         }
