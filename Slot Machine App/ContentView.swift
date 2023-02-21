@@ -289,6 +289,7 @@ struct ContentView: View {
                                     do {
                                         try moc.save()
                                         
+                                        print("--- --- --- --- --- --- ---")
                                         print(jackpot.id ?? "Unknown")
                                         print(jackpot.name ?? "Unknown")
                                         print(jackpot.jackpot ?? "Unknown")
