@@ -288,12 +288,17 @@ struct ContentView: View {
                                                                         
                                     do {
                                         try moc.save()
+                                        
+                                        print(jackpot.id ?? "Unknown")
+                                        print(jackpot.name ?? "Unknown")
+                                        print(jackpot.jackpot ?? "Unknown")
+                                        
                                     } catch {
                                         
                                     }
                                     
                                     currentJackpot = 0
-                                    
+                                    spin = 0
                                     
                                 }
                                 
